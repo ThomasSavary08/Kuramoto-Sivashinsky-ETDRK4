@@ -261,7 +261,7 @@ class KSE_1D():
             return CLV
 
     # Compute adjoints of CLV
-    def ADJ(CLV : list):
+    def ADJ(self, CLV : list):
         '''
         Compute adjoints vectors of CLV.
             Parameters:
