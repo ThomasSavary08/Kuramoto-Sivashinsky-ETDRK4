@@ -146,6 +146,45 @@ class KSE_1D():
                 W = np.fft.rfft(W, axis = 0)
             LCE = LCE / (n_compute * self.h)
             return LCE
+    
+    def LLE(self, p : int, n_forward : int, n_compute : int, keep : bool):
+        '''
+        Compute LLE (Local Lyapunov Exponents).
+            Parameters:
+                p (int): Number of LLE to compute.
+                n_forward (int): number of time steps before starting the computation of LLE. 
+                n_compute (int): number of steps to compute the LLE.
+                keep (bool): if True returns a numpy array of dimension (n_compute,self.N) containing the trajectory of the system.
+            Returns:
+                LLE (numpy.ndarray): numpy array of dimension (n_compute,p) containing LLE.
+                history (numpy.ndarray): trajectory of the system during the computation.
+        '''
+        # Forward the system before the computation of LLE
+        self.forward(n_forward, False)
+
+        # Computation of LLE
+        W = np.fft.rfft(np.eye(self.N)[:,:p], axis = 0)
+        LLE = np.zeros((n_compute, p))
+        if keep:
+            history = np.zeros((n_compute, self.N))
+            for i in range(1, n_compute + 1):
+                W = self.next_LTM(W)
+                self.forward(1, False)
+                W, R = np.linalg.qr(np.fft.irfft(W, n = self.N, axis = 0))
+                for j in range(p):
+                    LLE[i-1,j] = np.log(np.abs(R[j,j]))/self.h
+                history[i-1,:] = np.fft.irfft(self.u_hat, n = self.N)
+                W = np.fft.rfft(W, axis = 0)
+            return LLE, history
+        else:
+            for i in range(1, n_compute + 1):
+                W = self.next_LTM(W)
+                self.forward(1, False)
+                W, R = np.linalg.qr(np.fft.irfft(W, n = self.N, axis = 0))
+                for j in range(p):
+                    LLE[i-1,j] = np.log(np.abs(R[j,j]))/self.h
+                W = np.fft.rfft(W, axis = 0)
+            return LLE
 
     def CLV(self, p : int, n_forward : int, n_A : int, n_B : int, n_C : int, traj : bool):
         '''
