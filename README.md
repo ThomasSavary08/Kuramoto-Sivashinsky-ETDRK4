@@ -1,20 +1,26 @@
 # One dimensional Kuramoto-Sivashinsky ETDRK4 solver
+This code solves the one-dimensional Kuramoto-Sivashisnky equation with periodic boundary condition
+```math
+\left\{
+    \begin{array}{ll}
+        \displaystyle \frac{\partial u}{\partial t} + \frac{\partial^{2} u}{\partial x^{2}} + \nu \frac{\partial^{4} u}{\partial x^{4}} + \frac{1}{2} \frac{\partial u^{2}}{\partial x} = 0 \\
+        u(x+L,t) = u(x,t) \\
+        x \in [0,L], L \in \mathbb{R}_{+}^{*} \\
+        \nu \in ]0,1[ \\
+        t \in \mathbb{R}_{+}
+    \end{array}
+\right. 
+```
+using spectral method with an ETDRK4 solver (as the equation is stiff). <br>
 
+
+More precisly, since the solution u is $L$-periodic, we decompose it into a Fourier basis
 ```math
-\left\{
-    \begin{array}{ll}
-        \dot{x} = f(x,t) \\
-        x_{n+1} = f(x_{n},n)
-    \end{array}
-\right. 
+u(x,t) = \sum_{k \in \mathbb{Z}} \hat u_{k}(t)e^{i\frac{2\pi}{L}kx}
 ```
-* the jacobian of $f$ with respect to $x$ or $x_{n}$:
+which leads to the following ODE
 ```math
-\left\{
-    \begin{array}{ll}
-        J(x,t) = \displaystyle \frac{\partial f}{\partial x}(x,t) \\
-        ~ \\
-        J(x_{n},n) = \displaystyle \frac{\partial f}{\partial x_{n}}(x_{n},n)
-    \end{array}
-\right. 
+\frac{d \hat u_{k}}{dt} = \left(q_{k}^{2} - q_{k}^{4}\right) \hat u_{k} - \frac{iq_{k}}{2} \mathcal{F} \Bigl[ \left(\mathcal{F}^{-1}[\hat u] \right)^{2} \Bigr]_{k}
 ```
+where $\displaystyle q_{k} = \left(\frac{2\pi}{L}\right)k$ and $\displaystyle \mathcal{F}$ is the Fourier transform. <br>
+The ODE is finally solved using an ETDRK4, which is particularly well suited to stiff equations.
