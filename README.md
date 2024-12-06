@@ -32,7 +32,7 @@ which leads to the following ODE
 where $\displaystyle q_{k} = \left(\frac{2\pi}{L}\right)k$ and $\displaystyle \mathcal{F}$ is the Fourier transform. <br>
 The ODE is solved using an ETDRK4, which is particularly well suited to stiff equations. <br>
 
-Moreover, the associated linear equation is also solved in tangent space, which allows to compute Lyapunov exponents and Covariant Lyapunov Vectors (CLV). An example is given in notebook.
+Moreover, the associated linear equation is also solved in tangent space, which allows to compute Lyapunov exponents and Covariant Lyapunov Vectors (CLV). An example is given in the notebook.
 
 ### Contribute
 If you find any error or bug in the code, do not hesitate to create an issue or a pull request.
