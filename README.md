@@ -1,4 +1,11 @@
 # One dimensional Kuramoto-Sivashinsky ETDRK4 solver
+
+
+<p align="center">
+  <img src="./solution_example.png" >
+</p>
+
+
 This code solves the one-dimensional Kuramoto-Sivashisnky equation with periodic boundary condition
 ```math
 \left\{
@@ -23,4 +30,9 @@ which leads to the following ODE
 \frac{d \hat u_{k}}{dt} = \left(q_{k}^{2} - q_{k}^{4}\right) \hat u_{k} - \frac{iq_{k}}{2} \mathcal{F} \Bigl[ \left(\mathcal{F}^{-1}[\hat u] \right)^{2} \Bigr]_{k}
 ```
 where $\displaystyle q_{k} = \left(\frac{2\pi}{L}\right)k$ and $\displaystyle \mathcal{F}$ is the Fourier transform. <br>
-The ODE is finally solved using an ETDRK4, which is particularly well suited to stiff equations.
+The ODE is solved using an ETDRK4, which is particularly well suited to stiff equations. <br>
+
+Moreover, the associated linear equation is also solved in tangent space, which allows to compute Lyapunov exponents and Covariant Lyapunov Vectors (CLV). An example is given in notebook.
+
+### Contribute
+If you find any error or bug in the code, do not hesitate to create an issue or a pull request.
