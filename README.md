@@ -1,13 +1,20 @@
-# Learning
-Repository containing personal works on topics related to machine learning and numerical simulation.
-Most projects are developed in Python: the environment can then be copied using the following command
+# One dimensional Kuramoto-Sivashinsky ETDRK4 solver
 
-```console
-conda env create --name ENVNAME --file environment.yml
+```math
+\left\{
+    \begin{array}{ll}
+        \dot{x} = f(x,t) \\
+        x_{n+1} = f(x_{n},n)
+    \end{array}
+\right. 
 ```
-
-For projects containing a demonstration, this can be launched with the following command
-
-```console
-bash run.sh
+* the jacobian of $f$ with respect to $x$ or $x_{n}$:
+```math
+\left\{
+    \begin{array}{ll}
+        J(x,t) = \displaystyle \frac{\partial f}{\partial x}(x,t) \\
+        ~ \\
+        J(x_{n},n) = \displaystyle \frac{\partial f}{\partial x_{n}}(x_{n},n)
+    \end{array}
+\right. 
 ```
